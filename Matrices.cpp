@@ -127,6 +127,10 @@ RotationMatrix::RotationMatrix(double theta) : Matrix(2,2)
 }
 ScalingMatrix::ScalingMatrix(double scale) : Matrix(2,2) 
 {
+    a(0,0) = scale;
+    a(0,1) = 0;
+    a(1,0) = 0;
+    a(1,1) = scale;
 }
 TranslationMatrix::TranslationMatrix(double xShift, double yShift, int nCols) : Matrix(2,nCols) 
 {
