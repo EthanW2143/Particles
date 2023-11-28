@@ -144,3 +144,17 @@ void Particle::unitTests()
 
     cout << "Score: " << score << " / 7" << endl;
 }
+
+virtual void Particle::draw(RenderTarget& target, RenderStates states) const override
+{
+    VertexArray lines(TriangleFan, numPoints + 1);
+    Vector2f center(mapCoordsToPixel(m_centerCoordinate));
+    lines[0].position = center;
+    lines[0].color = m_color;
+    for (int j = 1; j < m_numPoints; j++)
+        {
+            lines[j].position = mapCoordsToPixel(m_A[j-1]);
+            lines[j].color = m_Color2;
+        }
+    target.draw(lines);
+}
