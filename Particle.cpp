@@ -170,3 +170,11 @@ void Particle::update(float dt)
     dy = m_vy * dt;
     translate(dx,dy);
 }
+
+void Particle::translate(double xShift, double yShift)
+{
+    TranslationMatrix T(xShift,yShift);
+    m_A = T + m_A;
+    m_centerCoordinate.x += xShift;
+    m_centerCoordinate.y += yShift;
+}
