@@ -121,4 +121,25 @@ ostream& operator<<(ostream& os, const Matrices::Matrix& a)
     return os;
 }
 
+RotationMatrix::RotationMatrix(double theta) : Matrix(2,2) 
+{
+
+}
+ScalingMatrix::ScalingMatrix(double scale) : Matrix(2,2) 
+{
+}
+TranslationMatrix::TranslationMatrix(double xShift, double yShift, int nCols) : Matrix(2,nCols) 
+{
+
+     for (int i=0; i < a.getRows(); i++)
+     {
+     }
+
+
+
+}
+
+
+
+
 }
