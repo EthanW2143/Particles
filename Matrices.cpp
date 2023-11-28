@@ -131,12 +131,21 @@ ScalingMatrix::ScalingMatrix(double scale) : Matrix(2,2)
 TranslationMatrix::TranslationMatrix(double xShift, double yShift, int nCols) : Matrix(2,nCols) 
 {
 
-     for (int i=0; i < a.getRows(); i++)
-     {
-     }
-
-
-
+    for (int i=0; i < a.getRows(); i++)
+    {
+        for(int j=0; j < a.getCols(); j++)
+        {
+            if(i==0)
+            {
+                a(i,j) = xShift;
+            }
+            else
+            {
+                a(i,j) = yShift
+            }
+        }
+    }
+    
 }
 
 
