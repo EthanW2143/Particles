@@ -73,9 +73,9 @@ void Engine::update(float dtAsSeconds)
 {
      for (auto it = m_particles.begin(); it != m_particles.end();)
 	{
-	     if ((*it)->getTTL() > 0.0)
+	     if (it->getTTL() > 0.0)
 		{
-		     (*it)->update(dtAsSeconds);
+		     it->update(dtAsSeconds);
 		     it++;
 		}
 
