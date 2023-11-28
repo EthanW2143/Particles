@@ -18,17 +18,59 @@ void Engine::run()
   Particle p(m_Window, 4, { (int)m_Window.getSize().x / 2, (int)m_Window.getSize().y / 2 });
   p.unitTests();
   cout << "Unit tests complete.  Starting engine..." << endl;
-  
 
+  while (m_Window.isOpen())
+    {
+      tpf.restart();
+      float dtAsSeconds = tpf.asSeconds();
+      input();
+      update(dtAsSeconds);
+      draw();
+    }
 }
 
 void Engine::input()
 {
+  Event event;
+  //Event handling
+  while (window.pollEvent(event))
+    {
+      if (event.type == Event::Closed)
+        {
+			  // Quit the game when the window is closed
+			  window.close(); 
+        }
+      
+      if (Keyboard::isKeyPressed(Keyboard::Escape))
+     			 {
+        			window.close();
+     			 }
+
+      if (event.type == sf::Event::MouseButtonPressed)
+        {
+          // Left Mouse Click event 
+          // will zoomIn and call setCenter
+          // on the ComplexPlane object with the (x,y) pixel location of the mouse click
+              
+          if (event.mouseButton.button == sf::Mouse::Left)
+            {
+              for (int i = 0; i < 4; i++)
+                {
+                  //numPoints is a number between 25 and 50
+                  int numPoints = rand() % 26 + 25
+                  Particle p(m_Window&, numPoints,Vector2i(event.mouseButton.x, event.mouseButton.y));
+                }
+
+            }
+        }            
+    }
+
 
 }
 
 void Engine::update(float dtAsSeconds)
 {
+  
 
 }
 
