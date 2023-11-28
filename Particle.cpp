@@ -158,3 +158,15 @@ virtual void Particle::draw(RenderTarget& target, RenderStates states) const ove
         }
     target.draw(lines);
 }
+
+void Particle::update(float dt)
+{
+    m_ttl = m_ttl - dt;
+    rotate(dt * m_radiansPerSec);
+    scale(SCALE);
+    float dx, dy;
+    dx = m_vx * dt;
+    m_vy = m_vy - ( G* dt);
+    dy = m_vy * dt;
+    translate(dx,dy);
+}
