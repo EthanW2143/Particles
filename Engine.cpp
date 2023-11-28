@@ -22,7 +22,8 @@ void Engine::run()
   while (m_Window.isOpen())
     {
       tpf.restart();
-      float dtAsSeconds = tpf.asSeconds();
+      Time elapsedTime = tpf.getElapsedTime();
+      float dtAsSeconds = elapsedTime.asSeconds();
       input();
       update(dtAsSeconds);
       draw();
