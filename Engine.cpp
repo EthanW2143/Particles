@@ -70,11 +70,27 @@ void Engine::input()
 
 void Engine::update(float dtAsSeconds)
 {
-  
+     for (auto it = m_particles.begin(); it != m_particles.end();)
+	{
+	     if ((*it)->getTTL() > 0.0)
+		{
+		     (*it)->update(dtAsSeconds);
+		     it++;
+		}
 
+	     else
+		{
+		     it = m_particles.erase(it);
+		}
+	}
 }
 
 void Engine::draw()
 {
-
+     m_Window.clear();
+     for (int i = 0; i < m_particles.size(); i++)
+	{
+	     m_particles.at(i).draw(m_Window);
+	}
+     m_Window.display();
 }
