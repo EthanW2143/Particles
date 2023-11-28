@@ -33,17 +33,17 @@ void Engine::input()
 {
   Event event;
   //Event handling
-  while (window.pollEvent(event))
+  while (m_Window.pollEvent(event))
     {
       if (event.type == Event::Closed)
         {
 			  // Quit the game when the window is closed
-			  window.close(); 
+			  m_Window.close(); 
         }
       
       if (Keyboard::isKeyPressed(Keyboard::Escape))
      			 {
-        			window.close();
+        			m_Window.close();
      			 }
 
       if (event.type == sf::Event::MouseButtonPressed)
