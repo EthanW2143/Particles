@@ -1,4 +1,5 @@
 #include "Matrices.h" //Capitalization may cause error maybe?
+#include <cmath>
 namespace Matrices
 //Very important, probably why I will get errors
 {
@@ -123,7 +124,10 @@ ostream& operator<<(ostream& os, const Matrices::Matrix& a)
 
 RotationMatrix::RotationMatrix(double theta) : Matrix(2,2) 
 {
-
+    a(0,0) = cos(theta);
+    a(0,1) = -1 * sin(theta);
+    a(1,0) = sin(theta);
+    a(1,1) = cos(theta);
 }
 ScalingMatrix::ScalingMatrix(double scale) : Matrix(2,2) 
 {
