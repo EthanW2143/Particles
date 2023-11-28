@@ -6,7 +6,7 @@ using namespace std;
 void Engine::Engine()
 {
   VideoMode vm(1920, 1080);
-  m_Window(vm, "Mandelbrot", Style::Default);
+  m_Window.create(vm, "Particles", Style::Default);
 }
 
 void Engine::run()
