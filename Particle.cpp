@@ -1,5 +1,7 @@
 #include "Particle.h"
 
+
+
 Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition) : m_A(2,numPoints)
 {
     m_ttl = TTL;                                                        // Initialize the time to live of the particle
@@ -173,18 +175,17 @@ void Particle::unitTests()
 
     cout << "Score: " << score << " / 7" << endl;
 }
-
-virtual void Particle::draw(RenderTarget& target, RenderStates states) const override
+void Particle::draw(RenderTarget& target, RenderStates states) const 
 {
-    VertexArray lines(TriangleFan, numPoints + 1);
-    Vector2f center(mapCoordsToPixel(m_centerCoordinate));
+    VertexArray lines(TriangleFan, m_numPoints + 1);
+    Vector2f center(target.mapCoordsToPixel(m_centerCoordinate));
     lines[0].position = center;
-    lines[0].color = m_color;
+    lines[0].color = m_color1;
     for (int j = 1; j <= m_numPoints; j++)
-        {
-            lines[j].position = mapCoordsToPixel(m_A[j-1]);
-            lines[j].color = m_Color2;
-        }
+    {
+        lines[j].position = Vector2f(target.mapCoordsToPixel(Vector2f(m_A(0,j-1), m_A(0,j-1)),m_cartesianPlane));
+        lines[j].color = m_color2;
+    }
     target.draw(lines);
 }
 
@@ -195,14 +196,14 @@ void Particle::update(float dt)
     scale(SCALE);
     float dx, dy;
     dx = m_vx * dt;
-    m_vy = m_vy - ( G* dt);
+    m_vy = m_vy - (G * dt);
     dy = m_vy * dt;
-    translate(dx,dy);
+    translate(dx, dy);
 }
 
 void Particle::translate(double xShift, double yShift)
 {
-    TranslationMatrix T(xShift,yShift);
+    TranslationMatrix T(xShift, yShift, m_numPoints);
     m_A = T + m_A;
     m_centerCoordinate.x += xShift;
     m_centerCoordinate.y += yShift;
