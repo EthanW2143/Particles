@@ -1,5 +1,34 @@
 #include "Particle.h"
 
+Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition) : m_A(2,numPoints)
+{
+    m_ttl = TTL;                                                        // Initialize the time to live of the particle
+    m_numPoints = numPoints;                                            //number of point for particle
+    m_radiansPerSec = (float(rand()) / (RAND_MAX)) * M_PI;              //random angular velocity [0,pi)
+    m_cartesianPlane.setCenter(0, 0);
+    m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
+    m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);     //maps the mouse click position as the center of particle
+
+    m_vx = float((rand() % 401 + 100));                           // initial horizontal velocity range 100 - 500
+    m_vy = float((rand() % 401 + 100));                          // initial verticle velocity range 100 - 500
+
+    m_color1 = Color::White;                                             // initialize to white
+    m_color2 = Color(rand() % 256, rand() % 256, rand() % 256);         // random rgb values for random color
+
+    float theta = static_cast<float>(rand()) / RAND_MAX * M_PI / 2.0; // turn rand into float, divide by max for a value <=1 and multiply by pi/2
+    float dTheta = 2.0 * M_PI / (numPoints - 1);                      // amount we rotate per vertex, divide by numpoints-1 to overlap last and first vertex
+
+    for (int j = 0; j < numPoints; ++j)
+    {
+        float r = float((rand() % 61 + 20)); // range 20-80
+        float dx = r * cos(theta);
+        float dy = r * sin(theta);
+        m_A(0, j) = m_centerCoordinate.x + dx;          // assign cartesian coordinate of newly generated vertex to m_A
+        m_A(1, j) = m_centerCoordinate.y + dy;
+
+        theta += dTheta;                               // increment to move to the next location
+    }
+}
 
 bool Particle::almostEqual(double a, double b, double eps)
 {
