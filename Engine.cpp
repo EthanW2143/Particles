@@ -88,10 +88,11 @@ void Engine::update(float dtAsSeconds)
 
 void Engine::draw()
 {
-     m_Window.clear();
-     for (int i = 0; i < m_particles.size(); i++)
-	{
-	     m_particles.at(i).draw(m_Window);
-	}
-     m_Window.display();
+    RenderStates states = RenderStates::Default;
+    m_Window.clear();
+    for (int i = 0; i < m_particles.size(); i++)
+    {
+        m_particles.at(i).draw(m_Window, states);
+    }
+    m_Window.display();
 }
