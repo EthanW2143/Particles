@@ -124,13 +124,20 @@ ostream& operator<<(ostream& os, const Matrices::Matrix& a)
 
 RotationMatrix::RotationMatrix(double theta) : Matrix(2,2) 
 {
+    // Goal (  cos(theta)     -sin(theta)   )
+    //      (  sin(theta)      cos(theta)   )
+
+    // takes theta as an angle for rotation in radians to rotate the matrix
     a[0][0] = cos(theta);
     a[0][1] = -1 * sin(theta);
-    a[1][0[ = sin(theta);
+    a[1][0] = sin(theta);
     a[1][1] = cos(theta);
 }
-ScalingMatrix::ScalingMatrix(double scale) : Matrix(2,2) 
+ScalingMatrix::ScalingMatrix(double scale) : Matrix(2, 2)
 {
+    // Goal ( scale   0   )
+    //      (   0   scale )
+
     a[0][0] = scale;
     a[0][1] = 0;
     a[1][0] = 0;
@@ -143,11 +150,11 @@ TranslationMatrix::TranslationMatrix(double xShift, double yShift, int nCols) : 
     {
         for(int j=0; j < getCols(); j++)
         {
-            if(i==0)
+            if(i==0)                        // FIRST ROW IS ALL XSHIFT
             {
                 a[i][j] = xShift;
             }
-            else
+            else                           // SECOND ROW IS ALL YSHIFT
             {
                 a[i][j] = yShift;
             }
