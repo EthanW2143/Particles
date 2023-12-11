@@ -7,11 +7,11 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_ttl = TTL;                                                        // Initialize the time to live of the particle
     m_numPoints = numPoints;                                            //number of point for particle
     m_radiansPerSec = (float(rand()) / (RAND_MAX)) * M_PI;              //random angular velocity [0,pi)
-    m_cartesianPlane.setCenter(0, 0);
-    m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
+    m_cartesianPlane.setCenter(0, 0);                                   // sets the center to origin
+    m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);          // sets the cartesian plane to target window
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);     //maps the mouse click position as the center of particle
 
-    m_vx = float((rand() % 401 + 100));                           // initial horizontal velocity range 100 - 500
+    m_vx = (rand() % 2 == 0 ? 1 : -1) * float((rand() % 401 + 100));                           // initial horizontal velocity range 100 - 500
     m_vy = float((rand() % 401 + 100));                          // initial verticle velocity range 100 - 500
 
     m_color1 = Color::White;                                             // initialize to white
@@ -20,14 +20,13 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     float theta = static_cast<float>(rand()) / RAND_MAX * M_PI / 2.0; // turn rand into float, divide by max for a value <=1 and multiply by pi/2
     float dTheta = 2.0 * M_PI / (numPoints - 1);                      // amount we rotate per vertex, divide by numpoints-1 to overlap last and first vertex
 
-    for (int j = 0; j < numPoints; ++j)
+    for (int j = 0; j < numPoints; ++j)                 // loop through each vertex
     {
         float r = float((rand() % 61 + 20)); // range 20-80
         float dx = r * cos(theta);
         float dy = r * sin(theta);
-        m_A(0, j) = m_centerCoordinate.x + dx;          // assign cartesian coordinate of newly generated vertex to m_A
+        m_A(0, j) = m_centerCoordinate.x + dx;          // assign cartesian coordinate of newly generated vertex to m_A matrix
         m_A(1, j) = m_centerCoordinate.y + dy;
-
         theta += dTheta;                               // increment to move to the next location
     }
 }
@@ -178,12 +177,12 @@ void Particle::unitTests()
 void Particle::draw(RenderTarget& target, RenderStates states) const 
 {
     VertexArray lines(TriangleFan, m_numPoints + 1);
-    Vector2f center(target.mapCoordsToPixel(m_centerCoordinate));
+    Vector2f center(target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane));
     lines[0].position = center;
     lines[0].color = m_color1;
     for (int j = 1; j <= m_numPoints; j++)
     {
-        lines[j].position = Vector2f(target.mapCoordsToPixel(Vector2f(m_A(0,j-1), m_A(0,j-1)),m_cartesianPlane));
+        lines[j].position = Vector2f(target.mapCoordsToPixel(Vector2f(m_A(0,j-1), m_A(1,j-1)),m_cartesianPlane));
         lines[j].color = m_color2;
     }
     target.draw(lines);

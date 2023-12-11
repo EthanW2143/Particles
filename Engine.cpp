@@ -20,8 +20,8 @@ void Engine::run()
 
     while (m_Window.isOpen())
     {
-        tpf.restart();
-        Time elapsedTime = tpf.getElapsedTime();
+        Time elapsedTime = tpf.restart();
+        //Time elapsedTime = tpf.getElapsedTime();
         float dtAsSeconds = elapsedTime.asSeconds();
         input();
         update(dtAsSeconds);
@@ -54,11 +54,12 @@ void Engine::input()
 
             if (event.mouseButton.button == sf::Mouse::Left)
             {
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     //numPoints is a number between 25 and 50
                     int numPoints = rand() % 26 + 25;
                     Particle p(m_Window, numPoints, Vector2i(event.mouseButton.x, event.mouseButton.y));
+                    m_particles.push_back(p);
                 }
 
             }
